@@ -120,7 +120,6 @@ $packagePatterns = @(
     "Microsoft-Windows-LanguageFeatures-TextToSpeech-$languageCode-Package~",
     "*IME-ja-jp*",
     "*IME-ko-kr*",
-    "*IME-zh-cn*",
     "*IME-zh-tw*",
 
     # --- Core OS Features (Removal is aggressive and will break functionality) ---
@@ -189,10 +188,10 @@ Get-ChildItem -Path $driverRepo -Directory | ForEach-Object {
     }
 }
 $fontsPath = Join-Path -Path $winDir -ChildPath "Fonts"
-if (Test-Path $fontsPath) { Get-ChildItem -Path $fontsPath -Exclude "segoe*.*", "tahoma*.*", "marlett.ttf", "8541oem.fon", "segui*.*", "consol*.*", "lucon*.*", "calibri*.*", "arial*.*", "times*.*", "cou*.*", "8*.*" | Remove-Item -Recurse -Force; Get-ChildItem -Path $fontsPath -Include "mingli*", "msjh*", "msyh*", "malgun*", "meiryo*", "yugoth*", "segoeuihistoric.ttf" | Remove-Item -Recurse -Force }
+if (Test-Path $fontsPath) { Get-ChildItem -Path $fontsPath -Exclude "segoe*.*", "tahoma*.*", "marlett.ttf", "8541oem.fon", "segui*.*","msyh*","simsun.ttc", "consol*.*", "lucon*.*", "calibri*.*", "arial*.*", "times*.*", "cou*.*", "8*.*" | Remove-Item -Recurse -Force; Get-ChildItem -Path $fontsPath -Include "mingli*", "msjh*",  "malgun*", "meiryo*", "yugoth*", "segoeuihistoric.ttf" | Remove-Item -Recurse -Force }
 Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Speech\Engines\TTS") -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "$scratchDir\ProgramData\Microsoft\Windows Defender\Definition Updates" -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\CHS" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\CHT" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\JPN" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\KOR" -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\CHT" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\JPN" -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$scratchDir\Windows\System32\InputMethod\KOR" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "$scratchDir\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Web") -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Help") -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Cursors") -Recurse -Force -ErrorAction SilentlyContinue
 
@@ -200,7 +199,6 @@ Write-Host "Removing Edge, WinRE, and OneDrive..."
 Remove-Item -Path "$scratchDir\Program Files (x86)\Microsoft\Edge*" -Recurse -Force 
 if ($architecture -eq 'amd64') { $folderPath = Get-ChildItem -Path "$scratchDir\Windows\WinSxS" -Filter "amd64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName } 
 if ($folderPath) { Remove-Item -Path $folderPath -Recurse -Force  }
-Remove-Item -Path "$scratchDir\Windows\System32\Microsoft-Edge-Webview" -Recurse -Force
 Remove-Item -Path "$scratchDir\Windows\System32\Recovery\winre.wim" -Recurse -Force
 New-Item -Path "$scratchDir\Windows\System32\Recovery\winre.wim" -ItemType File -Force
 Remove-Item -Path "$scratchDir\Windows\System32\OneDriveSetup.exe" -Force 
@@ -470,8 +468,8 @@ $servicesToRemove = @(
     # 'AudioEndpointBuilder', # CRITICAL: Dependency for Audiosrv.
     'MapsBroker', 
     'WalletService', 
-    'BthAvctpSvc', 
-    'BluetoothUserService', 
+    # 'BthAvctpSvc', 
+    # 'BluetoothUserService', 
     # 'WbioSrvc', # RISKY: Can cause logon screen to hang.
     'wuauserv', 
     'UsoSvc', 
