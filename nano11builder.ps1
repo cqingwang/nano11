@@ -196,9 +196,9 @@ Remove-Item -Path "$scratchDir\Windows\Temp\*" -Recurse -Force -ErrorAction Sile
 Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Web") -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Help") -Recurse -Force -ErrorAction SilentlyContinue; Remove-Item -Path (Join-Path -Path $winDir -ChildPath "Cursors") -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Removing Edge, WinRE, and OneDrive..."
-Remove-Item -Path "$scratchDir\Program Files (x86)\Microsoft\Edge*" -Recurse -Force 
-if ($architecture -eq 'amd64') { $folderPath = Get-ChildItem -Path "$scratchDir\Windows\WinSxS" -Filter "amd64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName } 
-if ($folderPath) { Remove-Item -Path $folderPath -Recurse -Force  }
+# Remove-Item -Path "$scratchDir\Program Files (x86)\Microsoft\Edge*" -Recurse -Force 
+# if ($architecture -eq 'amd64') { $folderPath = Get-ChildItem -Path "$scratchDir\Windows\WinSxS" -Filter "amd64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName } 
+# if ($folderPath) { Remove-Item -Path $folderPath -Recurse -Force  }
 
 Remove-Item -Path "$scratchDir\Windows\System32\Recovery\winre.wim" -Recurse -Force
 New-Item -Path "$scratchDir\Windows\System32\Recovery\winre.wim" -ItemType File -Force
